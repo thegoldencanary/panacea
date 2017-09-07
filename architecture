@@ -1,0 +1,15 @@
+
+Process vcf into internal objects 
+
+	returns iterator of variants
+
+Remove those outside exons
+
+	return iterator of variants
+
+for each disease, read each member's variances and apply filters. Intersect with other diseased members
+
+	return iterator of variants
+
+for each disease, remove variants according to hierachy. 
+
