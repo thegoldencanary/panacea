@@ -7,7 +7,7 @@
 		String old_base: The reference base
 		String new_base: The changed base
 		String member: The member assigned this variance
-		String allele: inheritance pattern
+		String allele: The inheritance pattern
 """
 class Variant:
 
