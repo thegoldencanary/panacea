@@ -7,6 +7,7 @@
 		String old_base: The reference base
 		String new_base: The changed base
 		String member: The member assigned this variance
+		String allele: inheritance pattern
 """
 class Variant:
 
@@ -15,14 +16,16 @@ class Variant:
 	old_base = ""
 	new_base = ""
 	member = ""
+	allele = ""
 	
-	def __init__(self, chromosome = -1, position = -1, old_base = "", new_base = "", member = "" ):
+	def __init__(self, chromosome = -1, position = -1, old_base = "", new_base = "", member = "" ,allele = ""):
 
 		self.chromosome = chromosome
 		self.position = position
 		self.old_base = old_base
 		self.new_base = new_base
 		self.member = member
+		self.allele = allele
 
 """
 	The class for reading a vcf file
