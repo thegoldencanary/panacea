@@ -1,7 +1,7 @@
 exon = open("sample_exon.txt")
 line = exon.readline()
 lines = []
-
+# tuple storing
 while line != "":
 
     splitLine = line.split()
