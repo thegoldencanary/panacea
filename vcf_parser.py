@@ -18,14 +18,16 @@ class Variant:
 	old_base = ""
 	new_base = ""
 	members = []
+	diseases = []
 	
-	def __init__(self, chromosome = -1, position = -1, old_base = "", new_base = "", members = [] ):
+	def __init__(self, chromosome = -1, position = -1, old_base = "", new_base = "", members = [], diseases = [] ):
 
 		self.chromosome = chromosome
 		self.position = position
 		self.old_base = old_base
 		self.new_base = new_base
 		self.members = members
+		self.diseases = diseases
 
 """
 	The class for reading a vcf file
