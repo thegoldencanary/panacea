@@ -13,3 +13,14 @@ for each disease, read each member's variances and apply filters. Intersect with
 
 for each disease, remove variants according to hierachy. 
 
+
+
+
+I've defined a Variant class in vcf_parser
+
+Because we know the members for each variant, it's actually really easy to filter.
+
+We could define a filter for each step ( exons, those with the disease, hierachy, etc ) and just
+pipe through the Variances, dropping those that are irrelevant. Set up some rules.
+
+This is extendable, parallelizable, and memory efficient 
