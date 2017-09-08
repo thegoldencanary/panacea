@@ -49,7 +49,7 @@ class VCFReader():
 	def __next__( self ):
 	
 		line = self.input_file.readline()
-		if line == "": raise StopIteration
+		if line == "": return None
 		line = line.split()
 		
 		chromo = line[ 0 ]
