@@ -18,10 +18,10 @@ class DiseaseFilter:
 	DISEASE_RULES_NEGATIVE = {}
 	DISEASE_RULES_CHROMOSOME = {}
 	
-	DISEASE_RULES_POSITIVE[ "sickle cell anaemia" ] = []
-	DISEASE_RULES_POSITIVE[ "retinis pigmentosa" ] = []
-	DISEASE_RULES_POSITIVE[ "severe skeletal dysplasia" ] = []
-	DISEASE_RULES_POSITIVE[ "spastic paraplegia" ] = []
+	DISEASE_RULES_POSITIVE[ "sickle cell anaemia" ] = ["father","mother","daughter1","daughter2","son1","son2"]
+	DISEASE_RULES_POSITIVE[ "retinis pigmentosa" ] = ["father","daughter2","son2"]
+	DISEASE_RULES_POSITIVE[ "severe skeletal dysplasia" ] = ["daughter2","son1"]
+	DISEASE_RULES_POSITIVE[ "spastic paraplegia" ] = ["father","daughter1","daughter3","son2"]
 	
 	DISEASE_RULES_NEGATIVE[ "sickle cell anaemia" ] = []
 	DISEASE_RULES_NEGATIVE[ "retinis pigmentosa" ] = []
