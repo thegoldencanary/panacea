@@ -18,6 +18,7 @@ class DiseaseFilter:
 	DISEASE_RULES_NEGATIVE = {}
 	DISEASE_RULES_CHROMOSOME = {}
 	
+	# Sickle cell has partial disease too?
 	DISEASE_RULES_POSITIVE[ "sickle cell anaemia" ] = ["father","mother","daughter1","daughter2","son1","son2"]
 	DISEASE_RULES_POSITIVE[ "retinis pigmentosa" ] = ["father","daughter2","son2"]
 	DISEASE_RULES_POSITIVE[ "severe skeletal dysplasia" ] = ["daughter2","son1"]
