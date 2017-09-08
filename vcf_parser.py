@@ -17,17 +17,15 @@ class Variant:
 	position = -1
 	old_base = ""
 	new_base = ""
-	member = ""
-	alleles = ""
+	members = []
 	
-	def __init__(self, chromosome = -1, position = -1, old_base = "", new_base = "", member = "" ,alleles = ""):
+	def __init__(self, chromosome = -1, position = -1, old_base = "", new_base = "", members = [] ):
 
 		self.chromosome = chromosome
 		self.position = position
 		self.old_base = old_base
 		self.new_base = new_base
-		self.member = member
-		self.alleles = alleles
+		self.members = members
 
 """
 	The class for reading a vcf file
@@ -41,7 +39,6 @@ class VCFReader():
 
 	input_file = ""
 	SAMPLE_FIELDS = [ "father", "mother", "daughter1", "daughter2", "daughter3", "son1", "son2" ]
-	variants = []
 
 	def __init__( self, filename ):
 		self.input_file = open( filename )
@@ -50,27 +47,25 @@ class VCFReader():
 		return self
 		
 	def __next__( self ):
-
-		if len( self.variants ) == 0:
 	
-			line = self.input_file.readline()
-			if line == "": raise StopIteration
-			line = line.split()
+		line = self.input_file.readline()
+		if line == "": raise StopIteration
+		line = line.split()
+		
+		chromo = line[ 0 ]
+		position = line[ 1 ]
+		old_base = line[ 2 ]
+		new_base = line[ 3 ]
+		
+		members = []
+		for index, sample in enumerate( self.SAMPLE_FIELDS ):
+			index += 4
+			alleles = line[ index ].split( ":" )[ 0 ]
+			if "1" in alleles:
+				members.append( ( sample, alleles ) )
 			
-			chromo = line[ 0 ]
-			position = line[ 1 ]
-			old_base = line[ 2 ]
-			new_base = line[ 3 ]
-			
-			for index, sample in enumerate( self.SAMPLE_FIELDS ):
-				index += 4
-				alleles = line[ index ].split( ":" )[ 0 ]
-				if "1" not in alleles:
-					continue 
-				found = Variant( chromosome = chromo, position = position, old_base = old_base, new_base = new_base, alleles = alleles, member = sample )
-				self.variants.append( found )
+		return Variant( chromosome = chromo, position = position, old_base = old_base, new_base = new_base, members = members )
 
-		return self.variants.pop()
 		
 		
 		
