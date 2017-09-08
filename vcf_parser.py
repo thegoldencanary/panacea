@@ -20,14 +20,20 @@ class Variant:
 	members = []
 	diseases = []
 	
-	def __init__(self, chromosome = -1, position = -1, old_base = "", new_base = "", members = [], diseases = [] ):
+	def __init__(self, chromosome = -1, position = -1, old_base = "", new_base = "", members = None, diseases = None ):
 
 		self.chromosome = chromosome
 		self.position = position
 		self.old_base = old_base
 		self.new_base = new_base
-		self.members = members
-		self.diseases = diseases
+		if members == None:
+			self.members = []
+		else:
+			self.members = members
+		if diseases == None:
+			self.diseases = []
+		else:
+			self.diseases = diseases
 
 """
 	The class for reading a vcf file
@@ -44,6 +50,7 @@ class VCFReader():
 
 	def __init__( self, filename ):
 		self.input_file = open( filename )
+		self.input_file.readline()
 		
 	def __iter__( self ):
 		return self
@@ -51,7 +58,9 @@ class VCFReader():
 	def __next__( self ):
 	
 		line = self.input_file.readline()
-		if line == "": return None
+		if line == "": 
+			self.input_file.close()
+			return None
 		line = line.split()
 		
 		chromo = line[ 0 ]
@@ -65,8 +74,9 @@ class VCFReader():
 			alleles = line[ index ].split( ":" )[ 0 ]
 			if "1" in alleles:
 				members.append( ( sample, alleles ) )
-			
-		return Variant( chromosome = chromo, position = position, old_base = old_base, new_base = new_base, members = members )
+		
+		v = Variant( chromosome = chromo, position = position, old_base = old_base, new_base = new_base, members = members, diseases=[] )
+		return v
 
 		
 		

@@ -1,5 +1,4 @@
 
-
 """
 	The class for the main filter
 	Includes several dictionaries for rules:
@@ -36,6 +35,8 @@ class DiseaseFilter:
 	
 	input = None
 	
+	variant = None
+	
 	def __init__( self, input ):
 		
 		self.input = input
@@ -45,18 +46,19 @@ class DiseaseFilter:
 	
 	def __next__( self ):
 	
-		variant = self.input.__next__()
-		while variant != None:
+		self.variant = self.input.__next__()
 
+		while self.variant != None:
+			
 			for disease in self.DISEASE_RULES_POSITIVE:
 			
 				pos_rules = self.DISEASE_RULES_POSITIVE[ disease ]
 				neg_rules = self.DISEASE_RULES_NEGATIVE[ disease ]
 				chromo = self.DISEASE_RULES_CHROMOSOME[ disease ]
 				
-				variant_members = [ x for x, y in variant.members ]
+				variant_members = [ x for x, y in self.variant.members ]
 				
-				chromosome_check = [ True if chromo == variant.chromosome else False for x in chromo ]
+				chromosome_check = [ True if chromo == self.variant.chromosome else False for x in chromo ]
 				pos_check = [ True if x in variant_members else False for x in pos_rules ]
 				neg_check = [ True if x in variant_members else False for x in neg_rules ]
 				
@@ -64,11 +66,12 @@ class DiseaseFilter:
 				if not all( pos_check ) and not len( pos_check ) == 0: continue
 				if any( neg_check )and not len( neg_check ) == 0: continue
 				
-				variant.diseases.append( disease )
+				self.variant.diseases.append( disease )
 				
-			if not len( variant.diseases ) == 0: return variant
-				
-			variant = self.input.__next__()
+			if not len( self.variant.diseases ) == 0:
+				return self.variant
+
+			self.variant = self.input.__next__()
 			
 		raise StopIteration
 		
