@@ -1,1 +1,2 @@
-if you guys can read this yay i am getting the hang of github
+if you guys can read this yay i am getting the hang of github.
+I have done this from the command--line
