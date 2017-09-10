@@ -60,7 +60,8 @@ class VCFReader():
 		line = self.input_file.readline()
 		if line == "": 
 			self.input_file.close()
-			return None
+			#return None
+			raise StopIteration
 		line = line.split()
 		
 		chromo = line[ 0 ]

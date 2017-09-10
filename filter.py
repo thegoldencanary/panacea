@@ -46,8 +46,11 @@ class DiseaseFilter:
 	
 	def __next__( self ):
 	
-		self.variant = self.input.__next__()
-
+		try:
+			self.variant = self.input.__next__()
+		except StopIteration:
+			raise StopIteration
+			
 		while self.variant != None:
 			
 			for disease in self.DISEASE_RULES_POSITIVE:
