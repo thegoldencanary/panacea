@@ -19,8 +19,9 @@ class Variant:
 	new_base = ""
 	members = []
 	diseases = []
+	probability = -1.0
 	
-	def __init__(self, chromosome = -1, position = -1, old_base = "", new_base = "", members = None, diseases = None ):
+	def __init__(self, chromosome = -1, position = -1, old_base = "", new_base = "", members = None, diseases = None, probability = -1.0 ):
 
 		self.chromosome = chromosome
 		self.position = position
@@ -34,6 +35,7 @@ class Variant:
 			self.diseases = []
 		else:
 			self.diseases = diseases
+		self.probability = probability
 
 """
 	The class for reading a vcf file
@@ -65,7 +67,7 @@ class VCFReader():
 		line = line.split()
 		
 		chromo = line[ 0 ]
-		position = line[ 1 ]
+		position = int( line[ 1 ] )
 		old_base = line[ 2 ]
 		new_base = line[ 3 ]
 		

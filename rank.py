@@ -9,12 +9,30 @@ class PriorTagger:
 	input = None
 	prior_file = None
 	
-	prior_list = None
+	prior_list = []
 	
 	def __init__( self, input, prior_file_name ):
 	
 		self.input = input
 		self.prior_file = open( prior_file_name )
+		
+		# Read prior probabilities
+		for line in self.prior_file:
+		
+			if line[ 0 ] == "#": continue
+			
+			line = line.split()
+			pos = int( line[ 1 ] )
+			alt = line[ 3 ]
+			reg = line[ 4 ]
+			
+			numbers = line[ 7 ].split( ";" )
+			AN = float( numbers[ 0 ].split("=")[ 1 ] ) if "AN" in numbers[ 0 ] else int( numbers[ 1 ].split("=")[ 1 ] )
+			AC = float( numbers[ 0 ].split("=")[ 1 ] ) if "AC" in numbers[ 0 ] else int( numbers[ 1 ].split("=")[ 1 ] )
+			
+			prior = AC / AN
+			
+			self.prior_list.append( ( pos, alt, reg, prior ) )
 		
 	def __iter__( self ):
 		return self
@@ -26,6 +44,43 @@ class PriorTagger:
 			variant = self.input.__next__()
 		except StopIteration:
 			raise StopIteration
+			
+		variant_pos = variant.position
+		depth_index = len( self.prior_list ) / 4
+		index = len( self.prior_list ) / 2
+		while( True ):
+		
+			if index < 0 or index > len( self.prior_list ):
+				return self.__next__()
+		
+			node = self.prior_list[ int( index ) ]
+			print( node[0] )
+			print( variant_pos )
+			if variant_pos == node[ 0 ]:
+				if variant.old_base == node[ 2 ] and variant.new_base == node[ 3 ]:
+					variant.probability = node[ 4 ]
+					return variant
+			if variant_pos < node[ 0 ]:
+				index = index - depth_index
+				depth_index /= 2
+			if variant_pos > node[ 0 ]:
+				index = index + depth_index
+				depth_index /= 2
+				
+			if depth_index < 1:
+				return self.__next__()
 		
 		
-		# Best method: Binary Search Tree for position?
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
