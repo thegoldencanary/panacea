@@ -11,6 +11,7 @@
 	Iterator for variants, adds disease information
 	
 """
+
 class DiseaseFilter:
 
 	# Setup rules for filtering variances per disease
@@ -19,20 +20,26 @@ class DiseaseFilter:
 	DISEASE_RULES_NEGATIVE = {}
 	DISEASE_RULES_CHROMOSOME = {}
 	
-	DISEASE_RULES_POSITIVE[ "sickle cell anaemia" ] = ["father","mother","daughter1","daughter2","son1","son2"]
-	DISEASE_RULES_POSITIVE[ "retinis pigmentosa" ] = ["father","daughter2","son2"]
+	DISEASE_RULES_POSITIVE[ "sickle cell anaemia" ] = ["daughter2","son2"]
+	DISEASE_RULES_POSITIVE[ "retinis pigmentosa dominant" ] = ["father","daughter2","son2"]
+	DISEASE_RULES_POSITIVE[ "retinis pigmentosa recessive" ] = ["father","daughter2","son2"]
 	DISEASE_RULES_POSITIVE[ "severe skeletal dysplasia" ] = ["daughter2","son1"]
-	DISEASE_RULES_POSITIVE[ "spastic paraplegia" ] = ["father","daughter1","daughter3","son2"]
+	DISEASE_RULES_POSITIVE[ "spastic paraplegia dominant" ] = ["father","daughter1","daughter3","son2"]
+	DISEASE_RULES_POSITIVE[ "spastic paraplegia recessive" ] = ["father","daughter1","daughter3","son2"]
 	
-	DISEASE_RULES_NEGATIVE[ "sickle cell anaemia" ] = []
-	DISEASE_RULES_NEGATIVE[ "retinis pigmentosa" ] = []
+	DISEASE_RULES_NEGATIVE[ "sickle cell anaemia" ] = ["daughter3"]
+	DISEASE_RULES_NEGATIVE[ "retinis pigmentosa dominant" ] = ["mother","daughter1","daughter3","son1"]
+	DISEASE_RULES_NEGATIVE[ "retinis pigmentosa recessive" ] = []
 	DISEASE_RULES_NEGATIVE[ "severe skeletal dysplasia" ] = []
-	DISEASE_RULES_NEGATIVE[ "spastic paraplegia" ] = []
+	DISEASE_RULES_NEGATIVE[ "spastic paraplegia dominant" ] = ["mother","daughter2","son1"]
+	DISEASE_RULES_NEGATIVE[ "spastic paraplegia recessive" ] = []
 	
 	DISEASE_RULES_CHROMOSOME[ "sickle cell anaemia" ] = []
-	DISEASE_RULES_CHROMOSOME[ "retinis pigmentosa" ] = []
+	DISEASE_RULES_CHROMOSOME[ "retinis pigmentosa dominant" ] = []
+	DISEASE_RULES_CHROMOSOME[ "retinis pigmentosa recessive" ] = []
 	DISEASE_RULES_CHROMOSOME[ "severe skeletal dysplasia" ] = []
-	DISEASE_RULES_CHROMOSOME[ "spastic paraplegia" ] = []
+	DISEASE_RULES_CHROMOSOME[ "spastic paraplegia dominant" ] = []
+	DISEASE_RULES_CHROMOSOME[ "spastic paraplegia recessive" ] = []
 	
 	input = None
 	
