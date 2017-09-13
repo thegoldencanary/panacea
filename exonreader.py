@@ -32,3 +32,50 @@ while word is not None:
             #print(word[1])
     except EOFError:
         break
+		
+		
+"""
+A template of the class for exon filtering
+
+Just need to fill in the loading of the file and the exon checking
+
+class ExonFilter:
+
+	self.input = None
+	self.exons = []
+	
+	def __init__( self, input, exon_filename ):
+	
+		f = open( exon_filename )
+		# Load lines into exons
+		
+		# Set input
+		self.input = input
+		
+	def __iter__( self ):
+		return self
+		
+	def __next__( self ):
+	
+		# Get next variant
+		try:
+			variant = self.input.__next__()
+		except StopIteration:
+			raise StopIteration
+			
+		# Check BSP for if variant position is in exon
+		# If not, call self.__next__()
+		return variant
+		
+	
+"""
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
