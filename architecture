@@ -24,3 +24,13 @@ We could define a filter for each step ( exons, those with the disease, hierachy
 pipe through the Variances, dropping those that are irrelevant. Set up some rules.
 
 This is extendable, parallelizable, and memory efficient 
+
+
+Example:
+
+for variant in DiseaseFilter( ExonFilter( "exon file", VCFReader( "vcf file" ) ) ):
+
+	print( variant.diseases )
+	
+Opens a VCFReader on the vcf file, an ExonFilter on the exon file, and combines them with a 
+DiseaseFilter. Each variant in DiseaseFilter is filtered from the VCFReader. 
