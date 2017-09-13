@@ -57,8 +57,6 @@ class PriorTagger:
 				return self.__next__()
 		
 			node = self.prior_list[ int( index ) ]
-			print( node[0] )
-			print( variant_pos )
 			
 			# If variant = variant in probabilities file set prob and return
 			if variant_pos == node[ 0 ]:
