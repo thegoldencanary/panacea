@@ -1,39 +1,3 @@
-exon = open("sample_exon.txt")
-line = exon.readline()
-lines = []
-# tuple storing
-while line != "":
-
-    splitLine = line.split()
-    
-    # removing last comma
-    beginExon = splitLine[9][0:len(splitLine[9])-1]
-    
-    #adding in starting values in tuple
-    newTup = tuple(beginExon.split(','))
-    #print(newTup)
-    # removing last comma
-    endExon = splitLine[10][0:len(splitLine[10])-1]
-    #print (endExon)
-    endTup = tuple(endExon.split(','))
-   # print (endTup)
-    finalTup = (newTup[0:]+endTup[0:])
-   # print(finalTup)
-    lines.append(finalTup)
-    line = exon.readline()
-print (lines)
-#reading in console inputs
-word = ""
-while word is not None:
-    try:
-        word = input('Enter your input:')
-        if word is not '':
-            word = word.split()
-            #print(word[1])
-    except EOFError:
-        break
-		
-		
 """
 A template of the class for exon filtering
 
@@ -70,12 +34,44 @@ class ExonFilter:
 	
 """
 	
+class ExonFilter:
+
+	input = None #imports of variences
+	exons = []
 	
-	
-	
-	
-	
-	
+	def __init__( self, input, exon_filename ):
+
+            exon = open(exon_filename)
+            line = exon.readline()
+            while line != "":
+                  splitLine = line.split()
+                  #getting first lot of tuples without last comma
+                  beginExon = splitLine[9][0:len(splitLine[9])-1]
+                  
+                  beginValues = beginExon.split(',') #should be a list
+                  
+                  #same for end exon
+                  endExon = splitLine[10][0:len(splitLine[10])-1]
+
+                  endValues = endExon.split(',')
+
+                  #list of exon ranges 
+                  #index 0 is the begin and index 1 is the end of range and so forth
+                  #rangelist final size should be even
+                  
+                  for x in range(len(beginValues)):
+                      self.exons+beginValues[x]
+                      slef.exons+endValues[x]
+                  
+                  #end of iteration for while loop
+            def __iter__( self ):
+                return self
+		
+	    #def __next__( self ): # nathan to implement binary tree that checks if an
+            #input varience is within the range allowed already one for ranker you repurpose
+            # if you want
+            
+                
 	
 	
 	
