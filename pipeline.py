@@ -1,5 +1,6 @@
 
 import re
+import os
 
 """
 	The main class for the Variances. 
@@ -252,15 +253,47 @@ class PriorTagger:
 			# If at leaf, end
 			if depth_index < 1:
 				return self.__next__()
+				
+
+"""
+	Outputs the variants given into disease files
+"""	
+class DiseaseOutput:
+
+	input = None
+
+	def __init__( self, input ):
+		self.input = input
 		
+		# Initialize files
+		os.makedirs( "output" )
+		open( "output/sickle cell anaemia", "w+" )
+		open( "output/retinis pigmentosa dominant", "w+" )
+		open( "output/retinis pigmentosa recessive", "w+" )
+		open( "output/severe skeletal dysplasia", "w+" )
+		open( "output/spastic paraplegia dominant", "w+" )
+		open( "output/spastic paraplegia recessive", "w+" )
 		
-		
-		
-		
-		
-		
-		
-		
+	def run( self ):
+	
+		while( True ):
+			# Get variant
+			variant = None
+			try:
+				variant = self.input.__next__()
+			except StopIteration:
+				return
+			
+			# Print information
+			for disease in variant.diseases:
+			
+				print( "{0} {1} {2} {3} {4}".format( 
+				variant.chromosome,
+				variant.position,
+				variant.old_base,
+				variant.new_base,
+				variant.probability ) , file = open( "output/{0}".format( disease ) )
+				)
 		
 		
 		
