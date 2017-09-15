@@ -266,13 +266,14 @@ class DiseaseOutput:
 		self.input = input
 		
 		# Initialize files
-		os.makedirs( "output" )
-		open( "output/sickle cell anaemia", "w+" )
-		open( "output/retinis pigmentosa dominant", "w+" )
-		open( "output/retinis pigmentosa recessive", "w+" )
-		open( "output/severe skeletal dysplasia", "w+" )
-		open( "output/spastic paraplegia dominant", "w+" )
-		open( "output/spastic paraplegia recessive", "w+" )
+		if not os.path.exists( "output" ):
+			os.makedirs( "output" )
+		open( "output/sickle cell anaemia", "w" )
+		open( "output/retinis pigmentosa dominant", "w" )
+		open( "output/retinis pigmentosa recessive", "w" )
+		open( "output/severe skeletal dysplasia", "w" )
+		open( "output/spastic paraplegia dominant", "w" )
+		open( "output/spastic paraplegia recessive", "w" )
 		
 	def run( self ):
 	
@@ -296,7 +297,20 @@ class DiseaseOutput:
 				)
 		
 		
+class PipelineBuilder:
+
+	pipeline = None
+	
+	def __init__( self, reader ):
+		self.pipeline = reader
 		
+	def add( self, node, *args ):
+	
+		self.pipeline = node( self.pipeline, *args )
+		
+	def build( self ):
+	
+		return self.pipeline
 		
 		
 			
