@@ -261,19 +261,24 @@ class PriorTagger:
 class DiseaseOutput:
 
 	input = None
-
-	def __init__( self, input ):
+	output = None
+	
+	diseases = ["sickle cell anaemia",\
+	"retinis pigmentosa dominant",\
+	"retinis pigmentosa recessive",\
+	"severe skeletal dysplasia",\
+	"spastic paraplegia dominant",\
+	"spastic paraplegia recessive" ]
+	
+	def __init__( self, input, output ):
 		self.input = input
-		
+		self.output = output
 		# Initialize files
-		if not os.path.exists( "output" ):
-			os.makedirs( "output" )
-		open( "output/sickle cell anaemia", "w" )
-		open( "output/retinis pigmentosa dominant", "w" )
-		open( "output/retinis pigmentosa recessive", "w" )
-		open( "output/severe skeletal dysplasia", "w" )
-		open( "output/spastic paraplegia dominant", "w" )
-		open( "output/spastic paraplegia recessive", "w" )
+		if not os.path.exists( self.output ):
+			os.makedirs( self.output )
+		for d in self.diseases:
+			open( "{0}/{1}".format( self.output, d ), "w" )
+		
 		
 	def run( self ):
 	
@@ -293,9 +298,9 @@ class DiseaseOutput:
 				variant.position,
 				variant.old_base,
 				variant.new_base,
-				variant.probability ) , file = open( "output/{0}".format( disease ) )
+				variant.probability ) , file = open( "{0}/{1}".format( self.output, disease ) )
 				)
-		
+			
 		
 class PipelineBuilder:
 
