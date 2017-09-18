@@ -60,11 +60,16 @@ class VCFReader():
 		
 	def __next__( self ):
 	
-		line = self.input_file.readline()
-		if line == "": 
-			self.input_file.close()
-			#return None
-			raise StopIteration
+		line = None
+		while( True ):
+			line = self.input_file.readline()
+			if line[ 0 ] == "#": continue
+			if line == "": 
+				self.input_file.close()
+				#return None
+				raise StopIteration
+			else:
+				break
 		line = line.split()
 		
 		chromo = line[ 0 ]
@@ -215,44 +220,46 @@ class PriorTagger:
 		return self
 		
 	def __next__( self ):
-	
-		# Get next variance
-		variant = None
-		try:
-			variant = self.input.__next__()
-		except StopIteration:
-			raise StopIteration
-		
-		# Get variance position and set BST index and depth
-		variant_pos = variant.position
-		depth_index = len( self.prior_list ) / 4
-		index = len( self.prior_list ) / 2
+
 		while( True ):
+	
+			# Get next variance
+			variant = None
+			try:
+				variant = self.input.__next__()
+			except StopIteration:
+				raise StopIteration
 		
-			# If off end of list end
-			if index < 0 or index > len( self.prior_list ):
-				return self.__next__()
+			# Get variance position and set BST index and depth
+			variant_pos = variant.position
+			depth_index = len( self.prior_list ) / 4
+			index = len( self.prior_list ) / 2
+			while( True ):
 		
-			node = self.prior_list[ int( index ) ]
+				# If off end of list end
+				if index < 0 or index > len( self.prior_list ):
+					return self.__next__()
+		
+				node = self.prior_list[ int( index ) ]
 			
-			# If variant = variant in probabilities file set prob and return
-			if variant_pos == node[ 0 ]:
-				if variant.old_base == node[ 2 ] and variant.new_base == node[ 3 ]:
-					variant.probability = node[ 4 ]
-					return variant
+				# If variant = variant in probabilities file set prob and return
+				if variant_pos == node[ 0 ]:
+					if variant.old_base == node[ 2 ] and variant.new_base == node[ 3 ]:
+						variant.probability = node[ 4 ]
+						return variant
 					
-			# If left go left subtree else right
-			# This updates depth and the node index
-			if variant_pos < node[ 0 ]:
-				index = index - depth_index
-				depth_index /= 2
-			if variant_pos > node[ 0 ]:
-				index = index + depth_index
-				depth_index /= 2
+				# If left go left subtree else right
+				# This updates depth and the node index
+				if variant_pos < node[ 0 ]:
+					index = index - depth_index
+					depth_index /= 2
+				if variant_pos > node[ 0 ]:
+					index = index + depth_index
+					depth_index /= 2
 				
-			# If at leaf, end
-			if depth_index < 1:
-				return self.__next__()
+				# If at leaf, end
+				if depth_index < 1:
+					break
 				
 
 """
