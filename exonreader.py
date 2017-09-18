@@ -99,37 +99,76 @@ class ExonFilter:
 	
 	def __init__( self, input, exon_filename ):
 
-            exon = open(exon_filename)
-            line = exon.readline()
-            while line != "":
-                  splitLine = line.split()
-                  #getting first lot of tuples without last comma
-                  beginExon = splitLine[9][0:len(splitLine[9])-1]
-                  
-                  beginValues = beginExon.split(',') #should be a list
-                  
-                  #same for end exon
-                  endExon = splitLine[10][0:len(splitLine[10])-1]
+		exon = open(exon_filename)
+		line = exon.readline()
+		while line != "":
+			splitLine = line.split()
+			#getting first lot of tuples without last comma
+			beginExon = splitLine[9][0:len(splitLine[9])-1]
+			
+			beginValues = beginExon.split(',') #should be a list
+			beginValues = [ int(x) for x in beginValues ]
+			  
+			#same for end exon
+			endExon = splitLine[10][0:len(splitLine[10])-1]
 
-                  endValues = endExon.split(',')
+			endValues = endExon.split(',')
+			endValues = [ int(x) for x in endValues ]
 
-                  #list of exon ranges 
-                  #index 0 is the begin and index 1 is the end of range and so forth
-                  #rangelist final size should be even
-                  
-                  for x in range(len(beginValues)):
-                      self.exons+beginValues[x]
-                      slef.exons+endValues[x]
-                  
-                  #end of iteration for while loop
-            def __iter__( self ):
-                return self
+			#list of exon ranges 
+				  
+			for x, y in zip( beginValues, endValues ):
+				self.exons.append( ( x, y ) )
+			  
+			#end of iteration for while loop
+			  
+			line = exon.readline()
+			
+		self.input = input
+				
+	def __iter__( self ):
+		return self
+				
+	def in_bounds( self, v, t ):
+		if v >= t[ 0 ] and v <= t[ 1 ]:
+			return True
+		return False
 		
-	    #def __next__( self ): # nathan to implement binary tree that checks if an
-            #input varience is within the range allowed already one for ranker you repurpose
-            # if you want
-            
-                
-	
-	
+	def __next__( self ):
+		
+		# Get next variant
+		while( True ):
+			try:
+				variant = self.input.__next__()
+			except StopIteration:
+				raise StopIteration
+			
+			variant_pos = variant.position
+			end = len( self.exons ) - 1
+			begin = 0
+			while( True ):
+			
+				# Set the middle index
+				index = begin + int( ( end - begin ) / 2 )
+				node = self.exons[ index ]
+				
+				# If found scan for correct variant
+				if self.in_bounds( variant_pos, node ) or self.in_bounds( variant_pos, self.exons[end] ):
+					return variant
+					
+				# If we checked the whole array and found nothing, endf
+				if int( ( end - begin ) / 2 ) == 0: break
+				
+				# if the indexes are the same now, end
+				if end == begin:
+					break
+				
+				# If middle node is < or > than indexes, move indexes accordingly.
+				if node[ 0 ] < variant_pos:
+					begin = index
+					continue
+				if node[ 1 ] > variant_pos:
+					end = index
+					continue			 
+				
 	

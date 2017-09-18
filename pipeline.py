@@ -64,12 +64,12 @@ class VCFReader():
 		line = None
 		while( True ):
 			line = self.input_file.readline()
-			if line[ 0 ] == "#": continue
 			if line == "": 
 				self.input_file.close()
 				#return None
 				raise StopIteration
 			else:
+				if line[ 0 ] == "#": continue
 				break
 		line = line.split()
 		
