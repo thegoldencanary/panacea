@@ -96,7 +96,7 @@ class ExonFilter:
 	input = None #imports of variences
 	exons = []
 	
-	def __init__( self, input, exon_filename ):
+	def __init__( self, exon_filename, input=None ):
 
 		exon = open(exon_filename)
 		line = exon.readline()
@@ -217,7 +217,7 @@ class DiseaseFilter:
 	
 	variant = None
 	
-	def __init__( self, input ):
+	def __init__( self, input=None ):
 		
 		self.input = input
 	
@@ -276,7 +276,7 @@ class PriorTagger:
 	
 	prior_list = []
 	
-	def __init__( self, input, prior_file_name ):
+	def __init__( self, prior_file_name, input=None ):
 	
 		self.input = input
 		self.prior_file = open( prior_file_name )
@@ -374,7 +374,7 @@ class DiseaseOutput:
 	"spastic paraplegia dominant",\
 	"spastic paraplegia recessive" ]
 	
-	def __init__( self, input, output ):
+	def __init__( self, output, input=None ):
 		self.input = input
 		self.output = output
 		# Initialize files
@@ -413,9 +413,9 @@ class PipelineBuilder:
 	def __init__( self, reader ):
 		self.pipeline = reader
 		
-	def add( self, node, *args ):
+	def add( self, node_class, *args ):
 	
-		self.pipeline = node( self.pipeline, *args )
+		self.pipeline = node_class( *args, input=self.pipeline  )
 		
 	def build( self ):
 	
