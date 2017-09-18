@@ -87,6 +87,88 @@ class VCFReader():
 		
 		v = Variant( chromosome = chromo, position = position, old_base = old_base, new_base = new_base, members = members, diseases=[] )
 		return v
+		
+"""
+	This class filters out any variances that are not in an exon
+"""			
+class ExonFilter:
+
+	input = None #imports of variences
+	exons = []
+	
+	def __init__( self, input, exon_filename ):
+
+		exon = open(exon_filename)
+		line = exon.readline()
+		while line != "":
+			splitLine = line.split()
+			#getting first lot of tuples without last comma
+			beginExon = splitLine[9][0:len(splitLine[9])-1]
+			
+			beginValues = beginExon.split(',') #should be a list
+			beginValues = [ int(x) for x in beginValues ]
+			  
+			#same for end exon
+			endExon = splitLine[10][0:len(splitLine[10])-1]
+
+			endValues = endExon.split(',')
+			endValues = [ int(x) for x in endValues ]
+
+			#list of exon ranges 
+				  
+			for x, y in zip( beginValues, endValues ):
+				self.exons.append( ( x, y ) )
+			  
+			#end of iteration for while loop
+			  
+			line = exon.readline()
+			
+		self.input = input
+				
+	def __iter__( self ):
+		return self
+				
+	def in_bounds( self, v, t ):
+		if v >= t[ 0 ] and v <= t[ 1 ]:
+			return True
+		return False
+		
+	def __next__( self ):
+		
+		# Get next variant
+		while( True ):
+			try:
+				variant = self.input.__next__()
+			except StopIteration:
+				raise StopIteration
+			
+			variant_pos = variant.position
+			end = len( self.exons ) - 1
+			begin = 0
+			while( True ):
+			
+				# Set the middle index
+				index = begin + int( ( end - begin ) / 2 )
+				node = self.exons[ index ]
+				
+				# If found scan for correct variant
+				if self.in_bounds( variant_pos, node ) or self.in_bounds( variant_pos, self.exons[end] ):
+					return variant
+					
+				# If we checked the whole array and found nothing, endf
+				if int( ( end - begin ) / 2 ) == 0: break
+				
+				# if the indexes are the same now, end
+				if end == begin:
+					break
+				
+				# If middle node is < or > than indexes, move indexes accordingly.
+				if node[ 0 ] < variant_pos:
+					begin = index
+					continue
+				if node[ 1 ] > variant_pos:
+					end = index
+					continue	
 
 
 """
