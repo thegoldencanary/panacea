@@ -200,7 +200,6 @@ class PriorTagger:
 		
 		# Read prior probabilities
 		for line in self.prior_file:
-		
 			if line[ 0 ] == "#": continue
 			
 			line = line.split()
@@ -215,6 +214,7 @@ class PriorTagger:
 			prior = AC / AN
 			
 			self.prior_list.append( ( pos, alt, reg, prior ) )
+		if ( len( self.prior_list ) % 2 ) == 0: self.prior_list.append( (-1,"","",0.0) )
 		
 	def __iter__( self ):
 		return self
@@ -232,36 +232,51 @@ class PriorTagger:
 		
 			# Get variance position and set BST index and depth
 			variant_pos = variant.position
-			depth_index = len( self.prior_list ) / 4
-			index = len( self.prior_list ) / 2
+			depth_index = int( len( self.prior_list ) / 4 )
+			index = int( len( self.prior_list ) / 2 ) + 1
+			LAST = False
 			while( True ):
-		
+				
 				# If off end of list end
 				if index < 0 or index > len( self.prior_list ):
-					return self.__next__()
-		
-				node = self.prior_list[ int( index ) ]
+					break
 			
+				node = self.prior_list[ int( index ) ]
+				print( index )
 				# If variant = variant in probabilities file set prob and return
 				if variant_pos == node[ 0 ]:
-					if variant.old_base == node[ 2 ] and variant.new_base == node[ 3 ]:
-						variant.probability = node[ 4 ]
-						return variant
+					saved_index = index
+					while( variant_pos == node[ 0 ] ):
+						if variant.old_base == node[ 2 ] and variant.new_base == node[ 3 ]:
+							variant.probability = node[ 4 ]
+							return variant
+						index -= 1
+						node = self.prior_list[ index ]
+					index = saved_index
+					while( variant_pos == node[ 0 ] ):
+						if variant.old_base == node[ 2 ] and variant.new_base == node[ 3 ]:
+							variant.probability = node[ 4 ]
+							return variant
+						index += 1
+						node = self.prior_list[ index ]	
+					break
 					
 				# If left go left subtree else right
 				# This updates depth and the node index
 				if variant_pos < node[ 0 ]:
 					index = index - depth_index
-					depth_index /= 2
+					depth_index = int( depth_index / 2 )
 				if variant_pos > node[ 0 ]:
 					index = index + depth_index
-					depth_index /= 2
+					depth_index = int( depth_index / 2 )
+				
+				if LAST: break
 				
 				# If at leaf, end
 				if depth_index < 1:
-					break
+					LAST = True
+					depth_index = 1
 				
-
 """
 	Outputs the variants given into disease files
 """	
