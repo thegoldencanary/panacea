@@ -1,36 +1,36 @@
 
-Process vcf into internal objects 
+The main module for panacea is pipeline.py
 
-	returns iterator of variants
+The pipeline is a set of objects linked together through connections to their inputs. 
 
-Remove those outside exons
+On one end, the pipeline is connected to a VCF file. 
+On the other it is connected to an output object.
 
-	return iterator of variants
+On a call to the output, the output reads from its input, which reads from its input, etc, down to the reader
 
-for each disease, read each member's variances and apply filters. Intersect with other diseased members
+The reader returns a Variant, which then passes through the pipeline.
 
-	return iterator of variants
+Each pipeline step either tags the Variant with some information like probability, or diseases, or filters out the Variant.
 
-for each disease, remove variants according to hierachy. 
+If the step filters it returns the next applicable Variant, so subsequent steps only see new applicable Variants.
 
+This means the pipeline consumes one Variant at a time.
 
-
-
-I've defined a Variant class in vcf_parser
-
-Because we know the members for each variant, it's actually really easy to filter.
-
-We could define a filter for each step ( exons, those with the disease, hierachy, etc ) and just
-pipe through the Variances, dropping those that are irrelevant. Set up some rules.
-
-This is extendable, parallelizable, and memory efficient 
+The current pipeline is set up as such:
 
 
-Example:
-
-for variant in DiseaseFilter( ExonFilter( "exon file", VCFReader( "vcf file" ) ) ):
-
-	print( variant.diseases )
+	VCFReader - takes a vcf file and reads its contents into Variant objects that it then sends along
+		|
+	ExonFilter - takes an exon file, and compares input Variants to see if they are in an exon. Ignores if not
+		|
+	DiseaseFilter - applies the rules for each disease to the input, tagging a Variant if it could be disease causing
+		|
+	PriorTagger - tags with the prior probability for the variant
+		|
+	DiseaseOutput - prints variances for each disease out to a file
 	
-Opens a VCFReader on the vcf file, an ExonFilter on the exon file, and combines them with a 
-DiseaseFilter. Each variant in DiseaseFilter is filtered from the VCFReader. 
+	
+Each class should have an __init__ method that takes "input" as an optional argument.
+Each class should consume from this input with __next__ calls.
+Each class should have the method __iter__ defined ( return self )
+Each class should define __next__, which returns the next applicable Variant with info tagged.
