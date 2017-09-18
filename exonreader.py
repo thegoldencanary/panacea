@@ -28,7 +28,65 @@ class ExonFilter:
 			raise StopIteration
 			
 		# Check BSP for if variant position is in exon
-		# If not, call self.__next__()
+		
+		# BST - This is copied from pipeline - PriorTagger. You'll need to adjust the conditionals. 
+		# i.e, where equality is checked check if in exon bounds, where < or > checked check either side
+		# of exon boundary.
+		
+		
+			# Get variance position and set indexes
+			variant_pos = variant.position
+			end = len( self.prior_list ) - 1
+			begin = 0
+			while( True ):
+			
+				# Set the middle index
+				index = begin + int( ( end - begin ) / 2 )
+				node = self.prior_list[ index ]
+				
+				# If found scan for correct variant
+				if variant_pos == node[0] or variant_pos == self.prior_list[end][0]:
+					if variant_pos == self.prior_list[end][0]: 
+						index = end
+						node = self.prior_list[end]
+					saved = index
+					while variant_pos == node[ 0 ]:
+						if variant.old_base == node[ 2 ] and variant.new_base == node[ 1 ]:
+							variant.probability = node[ 3 ]
+							return variant
+						index -= 1
+						if index < ( 0 ): break
+						node = self.prior_list[ index ]
+					index = saved
+					node = self.prior_list[ index ]
+					while variant_pos == node[ 0 ]:
+						if variant.old_base == node[ 2 ] and variant.new_base == node[ 1 ]:
+							variant.probability = node[ 3 ]
+							return variant	
+						index += 1
+						if index > ( len( self.prior_list ) - 1 ): break
+						node = self.prior_list[ index ]
+					break
+					
+				# If we checked the whole array and found nothing, end
+				if int( ( end - begin ) / 2 ) == 0: break
+				
+				# if the indexes are the same now, end
+				if end == begin:
+					break
+				
+				# If middle node is < or > than indexes, move indexes accordingly.
+				if node[ 0 ] < variant_pos:
+					begin = index
+					continue
+				if node[ 0 ] > variant_pos:
+					end = index
+					continue
+		
+		
+		
+		
+		# If not, get new variant
 		return variant
 		
 	
