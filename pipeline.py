@@ -75,12 +75,12 @@ class VCFReader():
 		
 		chromo = line[ 0 ]
 		position = int( line[ 1 ] )
-		old_base = line[ 2 ]
-		new_base = line[ 3 ]
+		old_base = line[ 3 ]
+		new_base = line[ 4 ]
 		
 		members = []
 		for index, sample in enumerate( self.SAMPLE_FIELDS ):
-			index += 4
+			index += 9
 			alleles = line[ index ].split( ":" )[ 0 ]
 			if "1" in alleles:
 				members.append( ( sample, alleles ) )
