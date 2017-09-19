@@ -22,13 +22,18 @@ class Variant:
 	members = []
 	diseases = []
 	probability = -1.0
+	raw_data = ""
 	
-	def __init__(self, chromosome = -1, position = -1, old_base = "", new_base = "", members = None, diseases = None, probability = -1.0 ):
+	def __init__(self, chromosome = -1, position = -1, old_base = "", new_base = "", members = None, diseases = None, probability = -1.0, raw_data = None ):
 
 		self.chromosome = chromosome
 		self.position = position
 		self.old_base = old_base
 		self.new_base = new_base
+		if raw_data == None:
+			self.raw_data = ""
+		else:
+			self.raw_data = raw_data
 		if members == None:
 			self.members = []
 		else:
@@ -71,6 +76,7 @@ class VCFReader():
 			else:
 				if line[ 0 ] == "#": continue
 				break
+		raw_data = line.stript( "\n" )
 		line = line.split()
 		
 		chromo = line[ 0 ]
@@ -85,7 +91,7 @@ class VCFReader():
 			if "1" in alleles:
 				members.append( ( sample, alleles ) )
 		
-		v = Variant( chromosome = chromo, position = position, old_base = old_base, new_base = new_base, members = members, diseases=[] )
+		v = Variant( chromosome = chromo, position = position, old_base = old_base, new_base = new_base, members = members, diseases=[], raw_data = raw_data )
 		return v
 		
 """
@@ -397,13 +403,9 @@ class DiseaseOutput:
 			# Print information
 			for disease in variant.diseases:
 			
-				print( "{0} {1} {2} {3} {4}".format( 
-				variant.chromosome,
-				variant.position,
-				variant.old_base,
-				variant.new_base,
-				variant.probability ) , file = open( "{0}/{1}".format( self.output, disease ) )
-				)
+				print( "{0}".format( variant.raw_data ) , file = open( "{0}/{1}".format( self.output, disease ), "a" ) )
+				print( "{0}".format( variant.probability ) , file = open( "{0}/{1}".format( self.output, disease ), "a" ) )
+				
 			
 		
 class PipelineBuilder:
