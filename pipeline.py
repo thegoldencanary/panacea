@@ -379,6 +379,14 @@ class DiseaseOutput:
 	"severe skeletal dysplasia",\
 	"spastic paraplegia dominant",\
 	"spastic paraplegia recessive" ]
+
+	DISEASE_PROBABILITY = {}
+	DISEASE_PROBABILITY[ diseases[ 0 ] ] = 0.0
+	DISEASE_PROBABILITY[ diseases[ 1 ] ] = 0.0
+	DISEASE_PROBABILITY[ diseases[ 2 ] ] = 0.0
+	DISEASE_PROBABILITY[ diseases[ 3 ] ] = 0.0
+	DISEASE_PROBABILITY[ diseases[ 4 ] ] = 0.0
+	DISEASE_PROBABILITY[ diseases[ 5 ] ] = 0.0
 	
 	def __init__( self, output, input=None ):
 		self.input = input
@@ -389,6 +397,9 @@ class DiseaseOutput:
 		for d in self.diseases:
 			open( "{0}/{1}".format( self.output, d ), "w" )
 		
+	def stat( variance_prior, disease_prior ):
+	
+		return math.abs( variance_prior - disease_prior )
 		
 	def run( self ):
 	
@@ -404,7 +415,7 @@ class DiseaseOutput:
 			for disease in variant.diseases:
 			
 				print( "{0}".format( variant.raw_data ) , file = open( "{0}/{1}".format( self.output, disease ), "a" ) )
-				print( "{0}".format( variant.probability ) , file = open( "{0}/{1}".format( self.output, disease ), "a" ) )
+				print( "{0}".format( self.stat( variant.probability, DISEASE_PROBABILITY[ disease ] ) ) , file = open( "{0}/{1}".format( self.output, disease ), "a" ) )
 				
 			
 		
