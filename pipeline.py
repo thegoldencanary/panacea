@@ -76,7 +76,7 @@ class VCFReader():
 			else:
 				if line[ 0 ] == "#": continue
 				break
-		raw_data = line.stript( "\n" )
+		raw_data = line.strip( "\n" )
 		line = line.split()
 		
 		chromo = line[ 0 ]
