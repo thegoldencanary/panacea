@@ -381,12 +381,12 @@ class DiseaseOutput:
 	"spastic paraplegia recessive" ]
 
 	DISEASE_PROBABILITY = {}
-	DISEASE_PROBABILITY[ diseases[ 0 ] ] = 0.0
-	DISEASE_PROBABILITY[ diseases[ 1 ] ] = 0.0
-	DISEASE_PROBABILITY[ diseases[ 2 ] ] = 0.0
-	DISEASE_PROBABILITY[ diseases[ 3 ] ] = 0.0
-	DISEASE_PROBABILITY[ diseases[ 4 ] ] = 0.0
-	DISEASE_PROBABILITY[ diseases[ 5 ] ] = 0.0
+	DISEASE_PROBABILITY[ diseases[ 0 ] ] = 0.00007
+	DISEASE_PROBABILITY[ diseases[ 1 ] ] = 0.00025
+	DISEASE_PROBABILITY[ diseases[ 2 ] ] = 0.00025
+	DISEASE_PROBABILITY[ diseases[ 3 ] ] = 0.0002
+	DISEASE_PROBABILITY[ diseases[ 4 ] ] = 0.00065
+	DISEASE_PROBABILITY[ diseases[ 5 ] ] = 0.00065
 	
 	def __init__( self, output, input=None ):
 		self.input = input
@@ -399,7 +399,7 @@ class DiseaseOutput:
 		
 	def stat( variance_prior, disease_prior ):
 	
-		return disease_prior / variance_prior
+		return math.abs( disease_prior - variance_prior )
 		
 	def run( self ):
 	
