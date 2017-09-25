@@ -397,9 +397,9 @@ class DiseaseOutput:
 		for d in self.diseases:
 			open( "{0}/{1}".format( self.output, d ), "w" )
 		
-	def stat( variance_prior, disease_prior ):
+	def stat( self, variance_prior, disease_prior ):
 	
-		return math.abs( disease_prior - variance_prior )
+		return abs( disease_prior - variance_prior )
 		
 	def run( self ):
 	
@@ -415,7 +415,7 @@ class DiseaseOutput:
 			for disease in variant.diseases:
 			
 				print( "{0}".format( variant.raw_data ) , file = open( "{0}/{1}".format( self.output, disease ), "a" ) )
-				print( "{0}".format( self.stat( variant.probability, DISEASE_PROBABILITY[ disease ] ) ) , file = open( "{0}/{1}".format( self.output, disease ), "a" ) )
+				print( "{0}".format( self.stat( variant.probability, self.DISEASE_PROBABILITY[ disease ] ) ) , file = open( "{0}/{1}".format( self.output, disease ), "a" ) )
 				
 			
 		
