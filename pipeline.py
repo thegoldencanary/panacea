@@ -2,6 +2,7 @@
 import re
 import os
 import math
+import operator
 
 """
 	The main class for the Variances. 
@@ -63,9 +64,9 @@ class VCFReader():
 		
 	def __iter__( self ):
 		return self
-		
+
 	def __next__( self ):
-	
+
 		line = None
 		while( True ):
 			line = self.input_file.readline()
@@ -242,13 +243,12 @@ class DiseaseFilter:
 		while self.variant != None:
 			
 			if self.variant.chromosome in ['Y','X']:
-                		try:
-                	        	self.variant = self.input.__next__()
-        	        	except StopIteration:
-	                        	raise StopIteration
+				try:
+					self.variant = self.input.__next__()
+				except StopIteration:
+					raise StopIteration
 				continue
-
-
+		
 			# For each disease
 			for disease in self.DISEASE_RULES_POSITIVE:
 			
@@ -396,7 +396,9 @@ class DiseaseOutput:
 	DISEASE_PROBABILITY[ diseases[ 3 ] ] = 0.0002
 	DISEASE_PROBABILITY[ diseases[ 4 ] ] = 0.00065
 	DISEASE_PROBABILITY[ diseases[ 5 ] ] = 0.00065
-	
+
+	disease_outputs = {}
+
 	def __init__( self, output, input=None ):
 		self.input = input
 		self.output = output
@@ -422,12 +424,21 @@ class DiseaseOutput:
 			
 			# Print information
 			for disease in variant.diseases:
-			
-				print( "{0}".format( variant.raw_data ) , file = open( "{0}/{1}".format( self.output, disease ), "a" ) )
-				print( "{0}".format( self.stat( variant.probability, self.DISEASE_PROBABILITY[ disease ] ) ) , file = open( "{0}/{1}".format( self.output, disease ), "a" ) )
 				
+				try:
+					self.disease_outputs[ disease ] = self.disease_outputs[ disease ].append(( "{0}".format( variant.raw_data ), self.stat( variant.probability, self.DISEASE_PROBABILITY[ disease ] ) ))
+				except KeyError:
+					self.disease_outputs[ disease ] = [( "{0}".format( variant.raw_data ), self.stat( variant.probability, self.DISEASE_PROBABILITY[ disease ] ) ) ]
 			
+		for disease in variant.diseases:
+			values = self.disease_outputs[ disease ]
+			sorted_d = sorted( values, key=lambda x: x[1] )
+			for x in sorted_d:
+				print( x[0], file = open( "{0}/{1}".format( self.output, disease ), "a" ) )
+				print( str(x[1]), file = open( "{0}/{1}".format( self.output, disease ), "a" ) )
+
 		
+
 class PipelineBuilder:
 
 	pipeline = None
