@@ -238,8 +238,17 @@ class DiseaseFilter:
 		except StopIteration:
 			raise StopIteration
 		
+
 		while self.variant != None:
 			
+			if self.variant.chromosome in ['Y','X']:
+                		try:
+                	        	self.variant = self.input.__next__()
+        	        	except StopIteration:
+	                        	raise StopIteration
+				continue
+
+
 			# For each disease
 			for disease in self.DISEASE_RULES_POSITIVE:
 			
