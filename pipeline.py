@@ -265,7 +265,7 @@ class DiseaseFilter:
 				
 				if not any( chromosome_check ) and not len( chromosome_check ) == 0: continue
 				if not all( pos_check ) and not len( pos_check ) == 0: continue
-				if any( neg_check )and not len( neg_check ) == 0: continue
+				if any( neg_check ) and not len( neg_check ) == 0: continue
 				
 				# Tag with disease
 				self.variant.diseases.append( disease )
