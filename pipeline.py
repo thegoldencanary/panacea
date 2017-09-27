@@ -420,18 +420,21 @@ class DiseaseOutput:
 			try:
 				variant = self.input.__next__()
 			except StopIteration:
-				return
+				break
 			
 			# Print information
 			for disease in variant.diseases:
-				
 				try:
-					self.disease_outputs[ disease ] = self.disease_outputs[ disease ].append(( "{0}".format( variant.raw_data ), self.stat( variant.probability, self.DISEASE_PROBABILITY[ disease ] ) ))
+					self.disease_outputs[ disease ].append(( "{0}".format( variant.raw_data ), self.stat( variant.probability, self.DISEASE_PROBABILITY[ disease ] ) ))
 				except KeyError:
 					self.disease_outputs[ disease ] = [( "{0}".format( variant.raw_data ), self.stat( variant.probability, self.DISEASE_PROBABILITY[ disease ] ) ) ]
-			
-		for disease in variant.diseases:
-			values = self.disease_outputs[ disease ]
+
+		for disease in self.diseases:
+			values = []
+			try:
+				values = self.disease_outputs[ disease ]
+			except:
+				continue
 			sorted_d = sorted( values, key=lambda x: x[1] )
 			for x in sorted_d:
 				print( x[0], file = open( "{0}/{1}".format( self.output, disease ), "a" ) )
