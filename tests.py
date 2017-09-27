@@ -34,11 +34,11 @@ X_Y_NEG = [Variant( members = [("daughter2",0),("father",0),("son2",0)], chromos
 
 def position_test():
 
-	p = ExonFilter( DATA_PATH + "merged.vcf", input=iter( exon_filter ) )
+	p = ExonFilter( DATA_PATH + "wgEncodeGencodeBasicV17.txt", input=iter( exon_filter ) )
 	result = [ x for x in p ]
 	assert( len( result ) == 1 )
 	
-	p = ExonFilter( DATA_PATH + "merged.vcf", input=iter( exon_filter_neg ) )
+	p = ExonFilter( DATA_PATH + "wgEncodeGencodeBasicV17.txt", input=iter( exon_filter_neg ) )
 	result = [ x for x in p ]
 	assert( len( result ) == 0 )
 	
@@ -47,7 +47,6 @@ def X_Y_test():
 
 	p = DiseaseFilter( input=iter( X_Y ) )
 	result = [ x for x in p ]
-	print( result )
 	assert( len( result ) == 0 )
 	
 	p = DiseaseFilter( input=iter( X_Y_NEG ) )
