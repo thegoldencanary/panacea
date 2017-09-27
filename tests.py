@@ -6,8 +6,8 @@ DATA_PATH = "/home/tcs/public_html/COMP555/VCFdata/"
 POSITION_POS = 11869
 POSITION_NEG = 11867
 
-exon_filter = [Variant( members = [("daughter1",0)], position = POSITION_POS )]
-exon_filter_neg = [Variant( members = [("daughter1",0)], position = POSITION_NEG )]
+exon_filter = [Variant( members = [("daughter2",0),("father",0),("son2",0)], position = POSITION_POS )]
+exon_filter_neg = [Variant( members = [("daughter2",0),("father",0),("son2",0)], position = POSITION_NEG )]
 
 sickle_cell = [Variant( members = [("daughter1",0),("daughter2",0),("son1",0),("son2",0),("father",0),("mother",0)], position = POSITION_POS )]
 ret_pig = [Variant( members = [("daughter2",0),("father",0),("son2",0)], position = POSITION_POS )]
