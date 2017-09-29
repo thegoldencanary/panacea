@@ -391,11 +391,12 @@ class DiseaseOutput:
 
 	DISEASE_PROBABILITY = {}
 	DISEASE_PROBABILITY[ diseases[ 0 ] ] = 0.00007
-	DISEASE_PROBABILITY[ diseases[ 1 ] ] = 0.00025
-	DISEASE_PROBABILITY[ diseases[ 2 ] ] = 0.00025
+	DISEASE_PROBABILITY[ diseases[ 1 ] ] = 0.00020
+	DISEASE_PROBABILITY[ diseases[ 2 ] ] = 0.00005
 	DISEASE_PROBABILITY[ diseases[ 3 ] ] = 0.0002
-	DISEASE_PROBABILITY[ diseases[ 4 ] ] = 0.00065
-	DISEASE_PROBABILITY[ diseases[ 5 ] ] = 0.00065
+	# Assumes that only dominant and recessive are possible
+	DISEASE_PROBABILITY[ diseases[ 4 ] ] = 0.000455
+	DISEASE_PROBABILITY[ diseases[ 5 ] ] = 0.000195
 
 	disease_outputs = {}
 
