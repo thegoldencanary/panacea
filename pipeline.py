@@ -205,6 +205,8 @@ class DiseaseFilter:
 	DISEASE_RULES_POSITIVE[ "severe skeletal dysplasia" ] = ["daughter2","son1"]
 	DISEASE_RULES_POSITIVE[ "spastic paraplegia dominant" ] = ["father","daughter1","daughter3","son2"]
 	DISEASE_RULES_POSITIVE[ "spastic paraplegia recessive" ] = ["father","daughter1","daughter3","son2"]
+	DISEASE_RULES_POSITIVE[ "spastic paraplegia xlinked" ] = ["father","daughter1","daughter3","son2"]
+	DISEASE_RULES_POSITIVE[ "retinis pigmentosa xlinked" ] = ["father","daughter2","son2"]
 	
 	DISEASE_RULES_NEGATIVE[ "sickle cell anaemia" ] = ["daughter3"]
 	DISEASE_RULES_NEGATIVE[ "retinis pigmentosa dominant" ] = ["mother","daughter1","daughter3","son1"]
@@ -212,13 +214,17 @@ class DiseaseFilter:
 	DISEASE_RULES_NEGATIVE[ "severe skeletal dysplasia" ] = []
 	DISEASE_RULES_NEGATIVE[ "spastic paraplegia dominant" ] = ["mother","daughter2","son1"]
 	DISEASE_RULES_NEGATIVE[ "spastic paraplegia recessive" ] = []
+	DISEASE_RULES_NEGATIVE[ "spastic paraplegia xlinked" ] = ["son1"]
+	DISEASE_RULES_NEGATIVE[ "retinis pigmentosa xlinked" ] = ["son1"]
 	
-	DISEASE_RULES_CHROMOSOME[ "sickle cell anaemia" ] = []
-	DISEASE_RULES_CHROMOSOME[ "retinis pigmentosa dominant" ] = []
-	DISEASE_RULES_CHROMOSOME[ "retinis pigmentosa recessive" ] = []
-	DISEASE_RULES_CHROMOSOME[ "severe skeletal dysplasia" ] = []
-	DISEASE_RULES_CHROMOSOME[ "spastic paraplegia dominant" ] = []
-	DISEASE_RULES_CHROMOSOME[ "spastic paraplegia recessive" ] = []
+	DISEASE_RULES_CHROMOSOME[ "sickle cell anaemia" ] = [ str(x) for x in range( 0, 50 )]
+	DISEASE_RULES_CHROMOSOME[ "retinis pigmentosa dominant" ] = [ str(x) for x in range( 0, 50 )]
+	DISEASE_RULES_CHROMOSOME[ "retinis pigmentosa recessive" ] = [ str(x) for x in range( 0, 50 )]
+	DISEASE_RULES_CHROMOSOME[ "severe skeletal dysplasia" ] = [ str(x) for x in range( 0, 50 )]
+	DISEASE_RULES_CHROMOSOME[ "spastic paraplegia dominant" ] = [ str(x) for x in range( 0, 50 )]
+	DISEASE_RULES_CHROMOSOME[ "spastic paraplegia recessive" ] = [ str(x) for x in range( 0, 50 )]
+	DISEASE_RULES_CHROMOSOME[ "spastic paraplegia xlinked" ] = ["X","Y"]
+	DISEASE_RULES_CHROMOSOME[ "retinis pigmentosa xlinked" ] = ["X","Y"]
 	
 	input = None
 	
@@ -241,13 +247,6 @@ class DiseaseFilter:
 		
 
 		while self.variant != None:
-			
-			if self.variant.chromosome in ['Y','X']:
-				try:
-					self.variant = self.input.__next__()
-				except StopIteration:
-					raise StopIteration
-				continue
 		
 			# For each disease
 			for disease in self.DISEASE_RULES_POSITIVE:
@@ -387,17 +386,31 @@ class DiseaseOutput:
 	"retinis pigmentosa recessive",\
 	"severe skeletal dysplasia",\
 	"spastic paraplegia dominant",\
-	"spastic paraplegia recessive" ]
+	"spastic paraplegia recessive",\
+	"spastic paraplegia xlinked",\
+	"retinis pigmentosa xlinked" ]
 
 	DISEASE_PROBABILITY = {}
-	DISEASE_PROBABILITY[ diseases[ 0 ] ] = 0.00007
-	DISEASE_PROBABILITY[ diseases[ 1 ] ] = 0.00020
-	DISEASE_PROBABILITY[ diseases[ 2 ] ] = 0.00005
-	DISEASE_PROBABILITY[ diseases[ 3 ] ] = 0.0002
-	# Assumes that only dominant and recessive are possible
-	DISEASE_PROBABILITY[ diseases[ 4 ] ] = 0.000455
-	DISEASE_PROBABILITY[ diseases[ 5 ] ] = 0.000195
-
+	
+	DISEASE_PROBABILITY[ "sickle cell anaemia" ] = 0.00007
+	
+	# Problem, total probability is 1/4000
+	# Have 40 % of this left over that represents less common gene variations 
+	DISEASE_PROBABILITY[ "retinis pigmentosa dominant" ] = 0.000075
+	DISEASE_PROBABILITY[ "retinis pigmentosa recessive" ] = 0.0000375
+	DISEASE_PROBABILITY[ "retinis pigmentosa xlinked" ] = 0.0000375
+	
+	DISEASE_PROBABILITY[ "severe skeletal dysplasia" ] = 0.0002
+	
+	# Total probability is 0.00065. Problem is there is no 
+	# info about the probabilities of recessive and xlinked versions
+	# Assumed to be equal
+	DISEASE_PROBABILITY[ "spastic paraplegia dominant" ] = 0.000455
+	DISEASE_PROBABILITY[ "spastic paraplegia recessive" ] = 0.0000975
+	DISEASE_PROBABILITY[ "spastic paraplegia xlinked" ] = 0.0000975
+	
+	
+	
 	disease_outputs = {}
 
 	def __init__( self, output, input=None ):
