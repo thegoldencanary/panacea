@@ -394,7 +394,7 @@ class DiseaseOutput:
 	
 	DISEASE_PROBABILITY[ "sickle cell anaemia" ] = 0.00007
 	
-	# Problem, total probability is 1/4000
+	# Problem, total probability is 1/4000 ( 0.00025 )
 	# Have 40 % of this left over that represents less common gene variations 
 	DISEASE_PROBABILITY[ "retinis pigmentosa dominant" ] = 0.000075
 	DISEASE_PROBABILITY[ "retinis pigmentosa recessive" ] = 0.0000375
@@ -404,10 +404,10 @@ class DiseaseOutput:
 	
 	# Total probability is 0.00065. Problem is there is no 
 	# info about the probabilities of recessive and xlinked versions
-	# Assumed to be equal
+	# Assumed xlinked is very rare based on literature
 	DISEASE_PROBABILITY[ "spastic paraplegia dominant" ] = 0.000455
-	DISEASE_PROBABILITY[ "spastic paraplegia recessive" ] = 0.0000975
-	DISEASE_PROBABILITY[ "spastic paraplegia xlinked" ] = 0.0000975
+	DISEASE_PROBABILITY[ "spastic paraplegia recessive" ] = 0.000190
+	DISEASE_PROBABILITY[ "spastic paraplegia xlinked" ] = 0.00010
 	
 	
 	
