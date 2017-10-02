@@ -256,6 +256,8 @@ class DiseaseFilter:
 				neg_rules = self.DISEASE_RULES_NEGATIVE[ disease ]
 				chromo = self.DISEASE_RULES_CHROMOSOME[ disease ]
 				variant_members = [ x for x, y in self.variant.members ]
+ease_prior - variance_prior ) / ( disease_prior + variance_prior ) )
+
 				
 				# Check if applicable
 				chromosome_check = [ True if chromo == self.variant.chromosome else False for x in chromo ]
@@ -279,6 +281,8 @@ class DiseaseFilter:
 		
 
 
+
+ease_prior - variance_prior ) / ( disease_prior + variance_prior ) )
 
 """
 	Tags Variants with prior probability for ranking.
@@ -395,9 +399,9 @@ class DiseaseOutput:
 	DISEASE_PROBABILITY[ "sickle cell anaemia" ] = 0.00007
 	
 	# Problem, total probability is 1/4000 ( 0.00025 )
-	# Have 40 % of this left over that represents less common gene variations 
-	DISEASE_PROBABILITY[ "retinis pigmentosa dominant" ] = 0.000075
-	DISEASE_PROBABILITY[ "retinis pigmentosa recessive" ] = 0.0000375
+	# Have set P for dominant/recessive to remainder after x linked 
+	DISEASE_PROBABILITY[ "retinis pigmentosa dominant" ] = 0.00010625
+	DISEASE_PROBABILITY[ "retinis pigmentosa recessive" ] = 0.00010625
 	DISEASE_PROBABILITY[ "retinis pigmentosa xlinked" ] = 0.0000375
 	
 	DISEASE_PROBABILITY[ "severe skeletal dysplasia" ] = 0.0002
