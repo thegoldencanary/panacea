@@ -424,7 +424,7 @@ class DiseaseOutput:
 		
 	def stat( self, variance_prior, disease_prior ):
 	
-		return abs( disease_prior - variance_prior )
+		return abs( ( disease_prior - variance_prior ) / ( disease_prior + variance_prior ) )
 		
 	def run( self ):
 	
