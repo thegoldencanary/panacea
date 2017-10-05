@@ -7,12 +7,14 @@ import operator
 """
 	The main class for the Variances. 
 	Contains:
-		Integer chromosome: The number of the chromosome the variance is found on
-		Integer position: The index where the variance occurs
-		String old_base: The reference base
-		String new_base: The changed base
-		String member: The member assigned this variance
-		String allele: The inheritance pattern
+		String : Integer chromosome: The chromosome the variant is on
+		Integer position: The location of the variant
+		String old_base: The previous base 
+		String new_base: The mutated base
+		[( String: member, String: allele )] members: The members and alleles for each the variant belongs to
+		[ String: disease ] diseases: The list of potential diseases caused
+		Float probability: The probability of the Variant
+		String raw_data: The original data
 """
 class Variant:
 
@@ -398,22 +400,15 @@ class DiseaseOutput:
 	
 	DISEASE_PROBABILITY[ "sickle cell anaemia" ] = 0.00007
 	
-	# Problem, total probability is 1/4000 ( 0.00025 )
-	# Have set P for dominant/recessive to remainder after x linked 
-	DISEASE_PROBABILITY[ "retinis pigmentosa dominant" ] = 0.00010625
-	DISEASE_PROBABILITY[ "retinis pigmentosa recessive" ] = 0.00010625
-	DISEASE_PROBABILITY[ "retinis pigmentosa xlinked" ] = 0.0000375
+	DISEASE_PROBABILITY[ "retinis pigmentosa dominant" ] = 0.0000875
+	DISEASE_PROBABILITY[ "retinis pigmentosa recessive" ] = 0.0001375
+	DISEASE_PROBABILITY[ "retinis pigmentosa xlinked" ] = 0.000025
 	
-	DISEASE_PROBABILITY[ "severe skeletal dysplasia" ] = 0.0002
+	DISEASE_PROBABILITY[ "severe skeletal dysplasia" ] = 0.00001
 	
-	# Total probability is 0.00065. Problem is there is no 
-	# info about the probabilities of recessive and xlinked versions
-	# Assumed xlinked is very rare based on literature
-	DISEASE_PROBABILITY[ "spastic paraplegia dominant" ] = 0.000455
-	DISEASE_PROBABILITY[ "spastic paraplegia recessive" ] = 0.000190
-	DISEASE_PROBABILITY[ "spastic paraplegia xlinked" ] = 0.00010
-	
-	
+	DISEASE_PROBABILITY[ "spastic paraplegia dominant" ] = 0.00003
+	DISEASE_PROBABILITY[ "spastic paraplegia recessive" ] = 0.000026
+	DISEASE_PROBABILITY[ "spastic paraplegia xlinked" ] = 0.0000000315
 	
 	disease_outputs = {}
 
