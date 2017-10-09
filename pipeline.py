@@ -258,7 +258,6 @@ class DiseaseFilter:
 				neg_rules = self.DISEASE_RULES_NEGATIVE[ disease ]
 				chromo = self.DISEASE_RULES_CHROMOSOME[ disease ]
 				variant_members = [ x for x, y in self.variant.members ]
-ease_prior - variance_prior ) / ( disease_prior + variance_prior ) )
 
 				
 				# Check if applicable
@@ -282,9 +281,6 @@ ease_prior - variance_prior ) / ( disease_prior + variance_prior ) )
 		raise StopIteration
 		
 
-
-
-ease_prior - variance_prior ) / ( disease_prior + variance_prior ) )
 
 """
 	Tags Variants with prior probability for ranking.
