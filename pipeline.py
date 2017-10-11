@@ -261,13 +261,13 @@ class DiseaseFilter:
 
 				
 				# Check if applicable
-				chromosome_check = [ True if chromo == self.variant.chromosome else False for x in chromo ]
+				chromosome_check = self.variant.chromosome in chromo
 				pos_check = [ True if x in variant_members else False for x in pos_rules ]
 				neg_check = [ True if x in variant_members else False for x in neg_rules ]
 				
-				if not any( chromosome_check ) and not len( chromosome_check ) == 0: continue
-				if not all( pos_check ) and not len( pos_check ) == 0: continue
-				if any( neg_check ) and not len( neg_check ) == 0: continue
+				if ( not chromosome_check ) and ( not len( chromo ) == 0 ): continue
+				if not all( pos_check ) and not len( pos_rules ) == 0: continue
+				if any( neg_check ) and not len( neg_rules ) == 0: continue
 				
 				# Tag with disease
 				self.variant.diseases.append( disease )
