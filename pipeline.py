@@ -259,7 +259,6 @@ class DiseaseFilter:
 				chromo = self.DISEASE_RULES_CHROMOSOME[ disease ]
 				variant_members = [ x for x, y in self.variant.members ]
 
-				
 				# Check if applicable
 				chromosome_check = self.variant.chromosome in chromo
 				pos_check = [ True if x in variant_members else False for x in pos_rules ]
@@ -307,8 +306,8 @@ class PriorTagger:
 			reg = line[ 4 ]
 			
 			numbers = line[ 7 ].split( ";" )
-			AN = float( numbers[ 0 ].split("=")[ 1 ] ) if "AN" in numbers[ 0 ] else int( numbers[ 1 ].split("=")[ 1 ] )
-			AC = float( numbers[ 0 ].split("=")[ 1 ] ) if "AC" in numbers[ 0 ] else int( numbers[ 1 ].split("=")[ 1 ] )
+			AN = float( numbers[ 0 ].split("=")[ 1 ] ) if "AN" in numbers[ 0 ] else float( numbers[ 1 ].split("=")[ 1 ] )
+			AC = float( numbers[ 0 ].split("=")[ 1 ] ) if "AC" in numbers[ 0 ] else float( numbers[ 1 ].split("=")[ 1 ] )
 			
 			prior = AC / AN
 			
